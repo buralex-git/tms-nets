@@ -342,7 +342,7 @@ namespace
 	}
 	
 	tms::BasicInt
-	impl_find_sobol_defect(int cur_t, int m, int s, Callback const &composition_checker)
+	impl_sobol_t(int cur_t, int m, int s, Callback const &composition_checker)
 	{
 		while ( cur_t > 0 && unified_checker(m - cur_t, s, composition_checker) )
 		{
@@ -357,7 +357,7 @@ namespace
 
 
 tms::BasicInt
-tms::analysis::find_sobol_defect(tms::Sobol const &net, tms::analysis::SobolTestType test_type, int t_estimate)
+tms::analysis::sobol_t(tms::Sobol const &net, tms::analysis::SobolTestType test_type, int t_estimate)
 {
 	unsigned t_star = net.t_estimate();
 	
@@ -371,7 +371,7 @@ tms::analysis::find_sobol_defect(tms::Sobol const &net, tms::analysis::SobolTest
 		callback_wrapper = [&](Dimensions const &dims, Compositions const &d_vecs, Compositions::iterator &iter_d_vecs) {
 			return callback(dims, d_vecs, iter_d_vecs);
 		};
-		return impl_find_sobol_defect(t_estimate + 1, net.m(), net.s(), callback_wrapper);
+		return impl_sobol_t(t_estimate, net.m(), net.s(), callback_wrapper);
 	}
 	else if ( test_type == SobolTestType::lip )
 	{
@@ -379,7 +379,7 @@ tms::analysis::find_sobol_defect(tms::Sobol const &net, tms::analysis::SobolTest
 		callback_wrapper = [&](Dimensions const &dims, Compositions const &d_vecs, Compositions::iterator &iter_d_vecs) {
 			return callback(dims, d_vecs, iter_d_vecs);
 		};
-		return impl_find_sobol_defect(t_estimate + 1, net.m(), net.s(), callback_wrapper);
+		return impl_sobol_t(t_estimate, net.m(), net.s(), callback_wrapper);
 	}
 	else if ( test_type == SobolTestType::lip_mod )
 	{
@@ -387,7 +387,7 @@ tms::analysis::find_sobol_defect(tms::Sobol const &net, tms::analysis::SobolTest
 		callback_wrapper = [&](Dimensions const &dims, Compositions const &d_vecs, Compositions::iterator &iter_d_vecs) {
 			return callback(dims, d_vecs, iter_d_vecs);
 		};
-		return impl_find_sobol_defect(t_estimate + 1, net.m(), net.s(), callback_wrapper);
+		return impl_sobol_t(t_estimate, net.m(), net.s(), callback_wrapper);
 	}
 		
 	return ~(0);
